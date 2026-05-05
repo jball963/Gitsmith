@@ -1,6 +1,6 @@
 # Gitsmith
 
-Drafts commit messages from your staged diff and patches your README when the docs drift.
+Drafts your commit message, patches your README when the docs drift, then commits and pushes — the whole "I'm done with this change" moment in one command.
 
 <!-- demo: replace with vhs/asciinema gif -->
 <!-- TODO: record demo with vhs and embed here above the fold -->
@@ -51,6 +51,8 @@ Proposed commit message:
 
 Commit? [Y/n] y
 ✓ Committed b3a1f2c
+Pushing to origin/main...
+✓ Pushed
 ```
 
 ## Flags
@@ -59,6 +61,7 @@ Commit? [Y/n] y
 | --------------- | ---------------------------------------------------------- |
 | `-y, --yes`     | Non-interactive: accept proposed README patch and commit   |
 | `--no-readme`   | Skip the README sync for this commit                       |
+| `--no-push`     | Commit but don't push                                      |
 | `--model <id>`  | Override the default Claude model                          |
 | `-V, --version` | Print version and exit                                     |
 | `-h, --help`    | Print help and exit                                        |

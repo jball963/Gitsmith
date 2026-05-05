@@ -20,6 +20,7 @@ when the docs have drifted.
 Options:
   -y, --yes          Non-interactive: accept proposed README patch and commit
       --no-readme    Skip the README sync for this commit
+      --no-push      Commit but don't push
       --model <id>   Override the default Claude model
   -V, --version      Print version and exit
   -h, --help         Print this help and exit
@@ -36,6 +37,7 @@ export async function run(argv = process.argv.slice(2)) {
       help: { type: 'boolean', short: 'h' },
       yes: { type: 'boolean', short: 'y' },
       'no-readme': { type: 'boolean' },
+      'no-push': { type: 'boolean' },
       model: { type: 'string' },
     },
     allowPositionals: false,
@@ -138,4 +140,28 @@ export async function run(argv = process.argv.slice(2)) {
 
   const { sha } = await git.commit(draft.message);
   console.log(`✓ Committed ${sha}`);
+
+  if (values['no-push']) {
+    console.log('(Push skipped — --no-push.)');
+    return;
+  }
+
+  const upstream = await git.getUpstream();
+  if (upstream) {
+    console.log(`Pushing to ${upstream}...`);
+    await git.push();
+    console.log('✓ Pushed');
+    return;
+  }
+
+  const remotes = await git.getRemotes();
+  if (remotes.length === 0) {
+    console.log('No remote configured — push skipped.');
+    return;
+  }
+  const remote = remotes.includes('origin') ? 'origin' : remotes[0];
+  const branch = await git.getCurrentBranch();
+  console.log(`Pushing to ${remote}/${branch} (setting upstream)...`);
+  await git.push({ remote, branch });
+  console.log('✓ Pushed');
 }

@@ -76,3 +76,28 @@ export async function commit(message) {
   const sha = (await git('rev-parse', '--short', 'HEAD')).trim();
   return { sha };
 }
+
+export async function getCurrentBranch() {
+  return (await git('rev-parse', '--abbrev-ref', 'HEAD')).trim();
+}
+
+export async function getUpstream() {
+  try {
+    return (await git('rev-parse', '--abbrev-ref', '@{u}')).trim();
+  } catch {
+    return null;
+  }
+}
+
+export async function getRemotes() {
+  const out = (await git('remote')).trim();
+  return out ? out.split('\n') : [];
+}
+
+export async function push({ remote, branch } = {}) {
+  if (remote && branch) {
+    await git('push', '-u', remote, branch);
+  } else {
+    await git('push');
+  }
+}
