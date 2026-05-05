@@ -1,0 +1,30 @@
+{
+  "name": "gitsmith",
+  "version": "0.1.0",
+  "description": "Drafts commit messages from your staged diff and patches your README when the docs drift.",
+  "type": "module",
+  "bin": {
+    "gitsmith": "./bin/gitsmith.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node ./bin/gitsmith.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@inquirer/prompts": "^7.0.0"
+  },
+  "keywords": [
+    "cli",
+    "git",
+    "commit",
+    "ai",
+    "anthropic",
+    "claude",
+    "readme"
+  ],
+  "license": "MIT",
+  "author": "Joseph Ball"
+}
